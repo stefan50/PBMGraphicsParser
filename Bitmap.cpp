@@ -1,6 +1,11 @@
 #include "Bitmap.hpp"
 
-Bitmap::Bitmap(int rows, int columns) : Graphics(rows, columns) {}
+Bitmap::Bitmap(int rows, int columns) : Graphics(rows, columns) {
+    for(int i = 0; i < columns; i++) {    
+        Vector<int> temp;
+        image.add_element(temp);
+    }
+}
 
 void Bitmap::grayscale() {
 
@@ -10,36 +15,49 @@ void Bitmap::monochrome() {
 
 }
 
-void Bitmap::negative() {
-
-}
-
 void Bitmap::rotate(String direction) {
-
+    Bitmap rotated(columns, rows);
+    if(direction == "left") {
+        for(int i = 0; i < columns; i++) {
+            for(int j = 0; j < rows; j++) {
+                rotated.image[rows - j - 1].add_element(image[i][j]);
+            }
+        }        
+    }
+    else if(direction == "right") {
+        for(int i = columns - 1; i >= 0; i--) {
+            for(int j = rows - 1; j >= 0; j--) {
+                rotated.image[j].add_element(image[i][j]);
+            }
+        }
+    }
+    *this = rotated;
 }
 
 std::istream& Bitmap::read(std::istream& is) {
     char c;
-    int i = 0;
-    Vector<int> row;
-    is >> c >> c;
-    is.get(c);
-    int j = 0;
+    int i = 0, j = 0;
+    is.ignore(1);
+    while(is.peek() == '#') {
+        is.ignore(1000, '\n');
+    }
+    is >> rows >> columns;
+    is.ignore(1);
+    *this = Bitmap(rows, columns);
     while(j < columns) {
-        is.get(c);
-        if(c == '#') {
-            is.ignore(1000, '\n');
+        while(is.peek() == '#') {
             is.ignore(1000, '\n');
         }
-        if(c == ' ') continue;
-        if(c == '\n') {
+        is >> c;
+        if(i == rows - 1) {
+            i = 0;
+            image[j].add_element((int)(c - '0'));
             j++;
-            image.add_element(row);
-            row = Vector<int>();
             continue;
         }
         if(c == '0' || c == '1') {
-            row.add_element((int)(c - '0'));
+            image[j].add_element((int)(c - '0'));
+            i++;
         }
     } 
     return is;
@@ -57,34 +75,14 @@ std::ostream& Bitmap::write(std::ostream& os) {
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Bitmap& bmp) {
-    char c;
-    int i = 0;
-    while(is >> c) {
-        Vector<int> row;
-        if(c == '#') {
-            is.ignore(1000, ' ');
-        }
-        if(c == ' ' || i >= bmp.rows) {
-            i = 0;
-            bmp.image.add_element(row);
-            row = Vector<int>();
-            continue;
-        }
-        if(c == '0' || c == '1') {
-            row.add_element((int)(c - '0'));
-        }
-        i++;
-    } 
+Bitmap::~Bitmap() {
+
 }
 
-std::ostream& operator<<(std::ostream& os, Bitmap& bmp) {
-    os << "P1" << std::endl;
-    os << bmp.rows << " " << bmp.columns << std::endl;
-    for(int i = 0; i < bmp.columns; i++) {
-        for(int j = 0; j < bmp.rows; j++) {
-            std::cout << bmp.image[i][j] << " ";
+void Bitmap::negative() {
+    for(int i = 0; i < columns; i++) {
+        for(int j = 0; j < rows; j++) {
+            image[i][j] = 1 - image[i][j];
         }
-        std::cout << std::endl;
     }
 }

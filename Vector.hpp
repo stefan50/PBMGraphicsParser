@@ -36,6 +36,9 @@ public:
     Vector(const Vector& other) {
         copy(other);
     }
+    ~Vector() {
+        erase(); 
+    }
     Vector& operator=(const Vector& other) {
         if(this != &other) {
             erase();

@@ -6,19 +6,14 @@
 using namespace std;
 
 int main() {
-
-    ifstream file("letterj.pbm");
-    Graphics* bmp = new Bitmap(6, 10);
+    char c;
+    String format;
+    ifstream file("jj.pbm");
+    file >> format;
+    Graphics* bmp = new Bitmap(0, 0);
     bmp->read(file);
+    //bmp->rotate("right");
     bmp->write(std::cout);
-
-/*    char c;
-    while(true) {
-        cin.get(c);
-        if(c == '\n') {
-            std::cout << true << std::endl;
-        } 
-    }
-*/    
+    delete bmp;    
     return 0;
 }
