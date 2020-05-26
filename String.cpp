@@ -122,7 +122,7 @@ Vector<String> String::split(char el) {
             }
             else str[k] = '\0';
             k = -1;
-            result.add_element(String(str), [](String a, String b) -> bool{return true;});
+            result.add_element(String(str));
         }
         else str[k] = string[i];
     }

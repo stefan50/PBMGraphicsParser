@@ -1,6 +1,5 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
-#include <functional>
 
 template <class T>
 class Vector {
@@ -49,19 +48,7 @@ public:
         return elements[i]; 
     }
 
-    void sort(std::function<bool(T, T)> comparator_function) {
-        for(int i = 0; i < size - 1; i++) {
-            for(int j = 0; j < size - i - 1; j++) {
-                if(comparator_function(elements[j], elements[j + 1]) == false) {
-                    T element = elements[j];
-                    elements[j] = elements[j + 1];
-                    elements[j + 1] = element;
-                }
-            }
-        }
-    }
-
-    int add_element(T element, std::function<bool(T, T)> comparator_function) {
+    int add_element(T element) {
         if(size >= capacity) {
             resize();
         }
@@ -71,7 +58,6 @@ public:
             }
         }*/
         elements[size++] = element;
-        sort(comparator_function);
         return 0;
     }
 
@@ -80,7 +66,7 @@ public:
         bool is_skip = false;
         for(int i = 0; i < size; i++) {
             if(elements[i] != element || is_skip) {
-                temp.add_element(elements[i], [](T a, T b) -> bool{return true;});
+                temp.add_element(elements[i]);
             }
             else {
                 is_skip = true;

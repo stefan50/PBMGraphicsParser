@@ -15,9 +15,9 @@ private:
 public:
     Session();
     void undo();
-    void add(Graphics image);
+    void add(Graphics* image);
     void session_info();
-    void collage(String direction, Graphics image1, Graphics image2, String outimage);
+    void collage(String direction, Graphics* image1, Graphics* image2, String outimage);
     void load(Vector<Graphics*> images, int id);
 };
 
