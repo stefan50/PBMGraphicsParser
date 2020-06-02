@@ -1,10 +1,11 @@
 #include "Bitmap.hpp"
 
-Bitmap::Bitmap(int rows, int columns) : Graphics(rows, columns) {
+Bitmap::Bitmap(int rows, int columns, String format) : Graphics(rows, columns, format) {
     for(int i = 0; i < columns; i++) {    
-        Vector<int> temp;
+        Vector<unsigned int> temp;
         image.add_element(temp);
     }
+    max_value = 1;
 }
 
 void Bitmap::grayscale() {
@@ -16,7 +17,7 @@ void Bitmap::monochrome() {
 }
 
 void Bitmap::rotate(String direction) {
-    Bitmap rotated(columns, rows);
+    Bitmap rotated(columns, rows, format);
     if(direction == "left") {
         for(int i = 0; i < columns; i++) {
             for(int j = 0; j < rows; j++) {
@@ -35,54 +36,25 @@ void Bitmap::rotate(String direction) {
 }
 
 std::istream& Bitmap::read(std::istream& is) {
-    char c;
-    int i = 0, j = 0;
-    is.ignore(1);
-    while(is.peek() == '#') {
-        is.ignore(1000, '\n');
+    if(format == "P1") {
+        read_ascii(is);
     }
-    is >> rows >> columns;
-    is.ignore(1);
-    *this = Bitmap(rows, columns);
-    while(j < columns) {
-        while(is.peek() == '#') {
-            is.ignore(1000, '\n');
-        }
-        is >> c;
-        if(i == rows - 1) {
-            i = 0;
-            image[j].add_element((int)(c - '0'));
-            j++;
-            continue;
-        }
-        if(c == '0' || c == '1') {
-            image[j].add_element((int)(c - '0'));
-            i++;
-        }
-    } 
-    return is;
+    else if(format == "P4") {
+        read_binary(is);
+    }
+    return is;    
 }
 
 std::ostream& Bitmap::write(std::ostream& os) {
-    os << "P1" << std::endl;
-    os << rows << " " << columns << std::endl;
-    for(int i = 0; i < columns; i++) {
-        for(int j = 0; j < rows; j++) {
-            std::cout << image[i][j] << " ";
-        }
-        std::cout << std::endl;
+    if(format == "P1") {
+        write_ascii(os);
+    }
+    else if(format == "P4") {
+        write_binary(os);
     }
     return os;
 }
 
 Bitmap::~Bitmap() {
 
-}
-
-void Bitmap::negative() {
-    for(int i = 0; i < columns; i++) {
-        for(int j = 0; j < rows; j++) {
-            image[i][j] = 1 - image[i][j];
-        }
-    }
 }

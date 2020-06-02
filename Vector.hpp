@@ -33,6 +33,11 @@ public:
         size = 0;
         elements = new T[capacity];
     }
+    Vector(int size) {
+        this->size = size;
+        capacity = size;
+        elements = new T[capacity];
+    }
     Vector(const Vector& other) {
         copy(other);
     }
@@ -55,11 +60,6 @@ public:
         if(size >= capacity) {
             resize();
         }
-        /*for(int i = 0; i < size; i++) {
-            if(set[i] == el) {
-                return -1;
-            }
-        }*/
         elements[size++] = element;
         return 0;
     }
@@ -90,6 +90,22 @@ public:
                 return elements[i];
             }
         }   
+    }
+
+    void fill(T element) {
+        for(int i = 0; i < size; i++) {
+            elements[i] = element;    
+        }
+    }
+
+    void borrow(int size) {
+        if(this->size >= size) {
+            return;
+        }
+        this->size = size;
+        while(capacity < size) {
+            resize();
+        }
     }
 };
 
