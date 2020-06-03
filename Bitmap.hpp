@@ -10,20 +10,19 @@
 class Bitmap : public Graphics {
 private:
     bool read_binary(std::istream& is) {
+        is.ignore(1);
         //std::string id;
         if(is.peek() == '#' /*&& !std::getline(f, comment)*/) {
             is.ignore(1000, '\n');
-            is.ignore(1);
+            //is.ignore(1);
         }
-        if(!(is >> rows >> columns)) {
-            return false;
-        }
+        is >> rows >> columns;
         image.borrow(columns);
         uint8_t temp;
         for(int i = 0; i < columns; i++) {
             image[i].borrow(rows);
         }
-        is.ignore(1);
+        //is.ignore(1);
         for(int i = 0; i < columns; i++) {
             for(int j = 0; j < rows; j++) {
                 if(j % 8 == 0) {
@@ -64,7 +63,6 @@ private:
         return true;
     }
     bool write_binary(std::ostream& os) {
-        //TODO conversion from unsigned int to char
         Vector<Vector<char>> image_binary;
         image_binary.borrow(columns);
         for(size_t y = 0; y < image_binary.get_size(); ++y) {

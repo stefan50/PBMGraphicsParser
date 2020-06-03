@@ -1,10 +1,10 @@
 #include "Bitmap.hpp"
 
 Bitmap::Bitmap(int rows, int columns, String format) : Graphics(rows, columns, format) {
-    for(int i = 0; i < columns; i++) {    
+    /*for(int i = 0; i < columns; i++) {    
         Vector<unsigned int> temp;
         image.add_element(temp);
-    }
+    }*/
     max_value = 1;
 }
 

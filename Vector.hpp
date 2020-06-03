@@ -103,9 +103,9 @@ public:
             return;
         }
         this->size = size;
-        while(capacity < size) {
-            resize();
-        }
+        this->capacity = size + 1;
+        erase();
+        elements = new T[capacity];
     }
 };
 
