@@ -8,6 +8,14 @@ Graymap::Graymap(int rows, int columns, String format) : Graphics(rows, columns,
     max_value = 15;
 }
 
+void Graymap::negative() {
+    for(int i = 0; i < columns; i++) {
+        for(int j = 0; j < rows; j++) {
+            image[i][j] = max_value - image[i][j];
+        }
+    }
+}
+
 void Graymap::grayscale() {
 
 }

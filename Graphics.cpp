@@ -10,10 +10,10 @@ Graphics::~Graphics() {
     
 }
 
-void Graphics::negative() {
+/*void Graphics::negative() {
     for(int i = 0; i < columns; i++) {
         for(int j = 0; j < rows; j++) {
             image[i][j] = max_value - image[i][j];
         }
     }
-}
+}*/

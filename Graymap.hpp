@@ -60,6 +60,7 @@ private:
 public:
     Graymap();
     Graymap(int rows, int columns, String format);
+    void negative();
     void grayscale();
     void monochrome();
     void rotate(String direction);

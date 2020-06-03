@@ -20,7 +20,7 @@ public:
     Graphics(int rows, int columns, String format);
     virtual void grayscale() = 0;
     virtual void monochrome() = 0;
-    void negative();
+    virtual void negative() = 0;
     virtual void rotate(String direction) = 0;
     virtual ~Graphics();
     virtual std::istream& read(std::istream& is) = 0;

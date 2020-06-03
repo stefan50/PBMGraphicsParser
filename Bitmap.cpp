@@ -16,6 +16,14 @@ void Bitmap::monochrome() {
 
 }
 
+void Bitmap::negative() {
+    for(int i = 0; i < columns; i++) {
+        for(int j = 0; j < rows; j++) {
+            image[i][j] = max_value - image[i][j];
+        }
+    }
+}
+
 void Bitmap::rotate(String direction) {
     Bitmap rotated(columns, rows, format);
     if(direction == "left") {
