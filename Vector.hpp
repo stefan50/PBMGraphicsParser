@@ -80,6 +80,17 @@ public:
         copy(temp);
     }
 
+    void remove_last_element() {
+        Vector temp;
+        if(size > 0) {
+            size--; 
+            for(int i = 0; i < size; i++) {
+                temp.add_element(elements[i]);
+            }
+            *this = temp; 
+        }
+    }
+
     int get_size() const {
         return size;
     }

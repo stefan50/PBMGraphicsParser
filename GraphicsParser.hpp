@@ -10,8 +10,11 @@ private:
     Vector<Session> sessions;
 public:
     GraphicsParser();
-    void switch_session(Session s);
+    void switch_session(int session_id);
     void run();
+    void load(String command);
+    void close();
+    void help();
 };
 
 #endif

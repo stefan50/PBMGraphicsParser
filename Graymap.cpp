@@ -1,10 +1,6 @@
 #include "Graymap.hpp"
 
 Graymap::Graymap(int rows, int columns, String format) : Graphics(rows, columns, format) {
-    for(int i = 0; i < columns; i++) {    
-        Vector<unsigned int> temp;
-        image.add_element(temp);
-    }
     max_value = 15;
 }
 
@@ -32,20 +28,6 @@ void Graymap::monochrome() {
     }
     max_value = 1;
 }
-
-/*Graymap& Graymap::operator=(Graymap& other) {
-    rows = other.rows;
-    columns = other.columns;
-    format = other.format;
-    image.~Vector();
-    image.borrow(columns);
-    for(int i = 0; i < columns; i++) {
-        image[i].borrow(rows);
-        for(int j = 0; j < rows; j++) {
-            image[i][j] = other.image[i][j];
-        }
-    }
-}*/
 
 void Graymap::rotate(String direction) {
     Graymap rotated(columns, rows, format);

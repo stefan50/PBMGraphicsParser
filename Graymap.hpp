@@ -11,7 +11,6 @@ private:
         } 
         is >> rows >> columns >> max_value;
         is.ignore(1);
-        std::cout << rows << " " << columns << " " << max_value << std::endl;
         uint8_t temp;
         image.borrow(columns);
         for(int i = 0; i < columns; i++) {
@@ -65,7 +64,6 @@ public:
     void monochrome();
     void rotate(String direction);
     ~Graymap();
-    //Graymap& operator=(Graymap& other);
     std::istream& read(std::istream& is);
     std::ostream& write(std::ostream& os);
 };

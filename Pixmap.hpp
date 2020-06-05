@@ -21,15 +21,6 @@ private:
                 image[i][j] = (int) temp;
             }
         }
-        std::cout << "P3" << std::endl;
-        std::cout << rows << " " << columns << std::endl;
-        std::cout << max_value << std::endl;
-        for(int i = 0; i < rows*columns; i++) {
-            for(int j = 0; j < 3; j++) {
-                std::cout << image[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
     }
     bool read_ascii(std::istream& is) {
         is.ignore(1);

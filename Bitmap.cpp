@@ -26,17 +26,22 @@ void Bitmap::negative() {
 
 void Bitmap::rotate(String direction) {
     Bitmap rotated(columns, rows, format);
+    rotated.max_value = max_value;
+    rotated.image.borrow(rows);
+    for(int i = 0; i < rows; i++) {
+        rotated.image[i].borrow(columns);
+    }
     if(direction == "left") {
         for(int i = 0; i < columns; i++) {
             for(int j = 0; j < rows; j++) {
-                rotated.image[rows - j - 1].add_element(image[i][j]);
+                rotated.image[rows - j - 1][i] = image[i][j]; 
             }
         }        
     }
     else if(direction == "right") {
         for(int i = columns - 1; i >= 0; i--) {
             for(int j = rows - 1; j >= 0; j--) {
-                rotated.image[j].add_element(image[i][j]);
+                rotated.image[j][i] = image[columns - i - 1][j];
             }
         }
     }
