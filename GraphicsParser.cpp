@@ -83,6 +83,7 @@ void GraphicsParser::run() {
                 }
                 image_file.close();        
             }
+            std::cout << "Image " << file_name << " added" << std::endl;
         }
         else if(String(buffer) == "session info") {
             current_session->session_info();
@@ -91,7 +92,33 @@ void GraphicsParser::run() {
             switch_session(command[1].to_int());
         } 
         else if(command[0] == "collage") {
-
+            Graphics* image1 = current_session->find_image(command[2]);
+            Graphics* image2 = current_session->find_image(command[3]);
+            Graphics* outimage; 
+            if(image1->get_format() != image2->get_format()) {
+                std::cout << "Cannot make a collage from different types! (" << image1->get_format() << " and " << image2->get_format() << ")" << std::endl;
+                return;
+            }
+            if(image1->get_format() == "P1" || image1->get_format() == "P4") {
+                outimage = new Bitmap(image1->get_rows(), image1->get_columns(), image1->get_format()); 
+            }
+            else if(image1->get_format() == "P2" || image1->get_format() == "P5") {
+                outimage = new Graymap(image1->get_rows(), image1->get_columns(), image1->get_format());
+            }
+            else if(image1->get_format() == "P3" || image1->get_format() == "P6") {
+                outimage = new Pixmap(image1->get_rows(), image1->get_columns(), image1->get_format());
+            }
+            outimage->set_image(image1->get_image());
+            outimage->set_max_value(image1->get_max_value());
+            if(command[1] == "horizontal") {
+                outimage->append_horizontally(image2);
+            }
+            else if(command[1] == "vertical") {
+                outimage->append_vertically(image2);
+            }
+            current_session->add(outimage);
+            current_session->add_file(command[4]);
+            std::cout << "New collage \"" << command[4] << "\" created" << std::endl; 
         }
     }   
 }

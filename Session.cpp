@@ -62,9 +62,9 @@ void Session::rotate(String direction) {
 }
 
 void Session::save_as(Vector<String> file_names) {
-    if(this->file_names.get_size() != file_names.get_size()) {
+    /*if(this->file_names.get_size() != file_names.get_size()) {
         return;
-    }
+    }*/
     for(int i = 0; i < commands.get_size(); i++) {
         Vector<String> command_split = commands[i].split(' ');
         if(command_split[0] == "grayscale") {
@@ -79,9 +79,16 @@ void Session::save_as(Vector<String> file_names) {
         else if(command_split[0] == "rotate") {
             rotate(command_split[1]);
         }
-        else if(command_split[0] == "collage") {
-            //collage(command_split[1], )
-        }
+        /*else if(command_split[0] == "collage") {
+            int pos_file1 = 0, pos_file2 = 0;
+            while(file_names[pos_file1] != command_split[2]) {
+                pos_file1++;
+            }
+            while(file_names[pos_file2] != command_split[3]) {
+                pos_file2++;
+            }
+            collage(command_split[1], images[pos_file1], images[pos_file2], command_split[4]);
+        }*/
     }
     int size = commands.get_size();
     for(int i = 0; i < size; i++) {
@@ -96,4 +103,16 @@ void Session::save_as(Vector<String> file_names) {
 
 void Session::save() {
     save_as(file_names);
+}
+
+void Session::collage(String direction, Graphics* image1, Graphics* image2, String outimage) {
+    Graphics* out_image = image1;
+    if(direction == "horizontal") {
+        out_image->append_horizontally(image2);
+    }
+    else if(direction == "vertical") {
+        out_image->append_vertically(image2);
+    }
+    images.add_element(out_image);
+    file_names.add_element(outimage);
 }

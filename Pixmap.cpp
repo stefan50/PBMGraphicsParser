@@ -97,3 +97,51 @@ std::ostream& Pixmap::write(std::ostream& os) {
     }
     return os;
 }
+
+void Pixmap::append_horizontally(Graphics* image) {
+    Vector<Vector<unsigned int>> appended;
+    Vector<Vector<unsigned int>> copy = image->get_image();
+    appended.borrow(2*columns*rows);
+    bool switch_var = false;
+    int k = 0, n = 0;
+    for(int i = 0; i < columns*rows*2; i++) {
+        if(i % rows == 0) switch_var = !switch_var;
+        appended[i].borrow(3);
+        if(switch_var) {
+            for(int j = 0; j < 3; j++) {
+                appended[i][j] = this->image[k][j]; 
+            }
+            k++;
+        }
+        else {
+            for(int j = 0; j < 3; j++) {
+                appended[i][j] = copy[n][j]; 
+            }
+            n++;
+        }
+    }
+
+    this->image = appended;
+    rows *= 2;
+}
+
+void Pixmap::append_vertically(Graphics* image) {
+    Vector<Vector<unsigned int>> appended;
+    appended.borrow(2*columns*rows);
+    for(int i = 0; i < columns * rows; i++) {
+        appended[i].borrow(3);
+        for(int j = 0; j < 3; j++) {
+            appended[i][j] = this->image[i][j]; 
+        }
+    }
+    Vector<Vector<unsigned int>> copy = image->get_image();
+    for(int i = 0; i < copy.get_size(); i++) {
+        appended[i + columns*rows].borrow(3);
+        for(int j = 0; j < 3; j++) {
+            appended[i + columns*rows][j] = copy[i][j]; 
+        } 
+    } 
+
+    this->image = appended;
+    columns *= 2;
+}

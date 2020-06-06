@@ -41,9 +41,10 @@ private:
             is.ignore(1000, '\n');
         }
         is >> rows >> columns;
-        std::cout << rows << " " << columns << std::endl;
         is.ignore(1);
-        *this = Bitmap(rows, columns, format);
+        //*this = Bitmap(rows, columns, format);
+        image.borrow(columns);
+        //image[0].borrow(rows);
         while(j < columns) {
             while(is.peek() == '#') {
                 is.ignore(1000, '\n');
@@ -53,6 +54,7 @@ private:
                 i = 0;
                 image[j].add_element((int)(c - '0'));
                 j++;
+                //image[j].borrow(rows);
                 continue;
             }
             if(c == '0' || c == '1') {
@@ -99,9 +101,9 @@ private:
         os << rows << " " << columns << std::endl;
         for(int i = 0; i < columns; i++) {
             for(int j = 0; j < rows; j++) {
-                std::cout << image[i][j] << " ";
+                os << image[i][j] << " ";
             }
-            std::cout << std::endl;
+            os << std::endl;
         }
     }
 public:
@@ -114,6 +116,8 @@ public:
     ~Bitmap();
     std::istream& read(std::istream& is);
     std::ostream& write(std::ostream& os);
+    void append_horizontally(Graphics* image);
+    void append_vertically(Graphics* image);
 };
 
 #endif

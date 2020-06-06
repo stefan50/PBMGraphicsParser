@@ -71,3 +71,42 @@ std::ostream& Bitmap::write(std::ostream& os) {
 Bitmap::~Bitmap() {
 
 }
+
+void Bitmap::append_horizontally(Graphics* image) {
+    Vector<Vector<unsigned int>> appended;
+    Vector<Vector<unsigned int>> copy = image->get_image();
+    appended.borrow(columns);
+    for(int i = 0; i < columns; i++) {
+        appended[i].borrow(rows*2);
+        for(int j = 0; j < rows; j++) {
+            appended[i][j] = this->image[i][j]; 
+        }
+        for(int j = 0; j < copy[i].get_size(); j++) {
+            appended[i][j + rows] = copy[i][j]; 
+        }
+    }
+
+    this->image = appended;
+    rows *= 2;
+}
+
+void Bitmap::append_vertically(Graphics* image) {
+    Vector<Vector<unsigned int>> appended;
+    appended.borrow(columns*2);
+    for(int i = 0; i < columns; i++) {
+        appended[i].borrow(rows);
+        for(int j = 0; j < rows; j++) {
+            appended[i][j] = this->image[i][j]; 
+        }
+    }
+    Vector<Vector<unsigned int>> copy = image->get_image();
+    for(int i = 0; i < copy.get_size(); i++) {
+        appended[i + columns].borrow(rows);
+        for(int j = 0; j < copy[i].get_size(); j++) {
+            appended[i + columns][j] = copy[i][j]; 
+        } 
+    } 
+
+    this->image = appended;
+    columns *= 2;
+}

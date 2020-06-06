@@ -11,7 +11,6 @@ private:
         } 
         is >> rows >> columns >> max_value;
         is.ignore(1);
-        std::cout << rows << " " << columns << " " << max_value << std::endl;
         uint8_t temp;
         image.borrow(rows*columns);
         for(int i = 0; i < rows*columns; i++) {
@@ -66,6 +65,8 @@ public:
     ~Pixmap();
     std::istream& read(std::istream& is);
     std::ostream& write(std::ostream& os);
+    void append_horizontally(Graphics* image);
+    void append_vertically(Graphics* image);
 };
 
 #endif 

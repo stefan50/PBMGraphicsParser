@@ -28,6 +28,26 @@ public:
     Vector<Vector<unsigned int>> get_image() const {
         return image;
     }
+    String get_format() const {
+        return format;
+    }
+    void set_image(Vector<Vector<unsigned int>> other) {
+        image = other;
+    }
+    int get_rows() const {
+        return rows;
+    }
+    int get_columns() const {
+        return columns;
+    }
+    int get_max_value() const {
+        return max_value;
+    }
+    void set_max_value(int max_value) {
+        this->max_value = max_value;
+    }
+    virtual void append_horizontally(Graphics* image) = 0;
+    virtual void append_vertically(Graphics* image) = 0;
 };
 
 #endif

@@ -66,6 +66,8 @@ public:
     ~Graymap();
     std::istream& read(std::istream& is);
     std::ostream& write(std::ostream& os);
+    void append_horizontally(Graphics* image);
+    void append_vertically(Graphics* image);
 };
 
 #endif

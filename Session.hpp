@@ -18,6 +18,15 @@ public:
         
     }
     Session(Vector<Graphics*> images, Vector<String> file_names, int id);
+    Graphics* find_image(String name) {
+        int i = 0;
+        for(; i < file_names.get_size(); i++) {
+            if(name == file_names[i]) {
+                break;
+            }
+        }
+        return images[i];
+    }
     void undo();
     void add(Graphics* image);
     void add_file(String file);
